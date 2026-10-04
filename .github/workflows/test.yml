@@ -1,0 +1,75 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install and Production Build
+        run: |
+          npm ci
+          export NODE_OPTIONS="--openssl-legacy-provider"
+          npm run build-prod
+        env:
+          NODE_ENV: production
+          ENABLE_SERVICE_WORKER: 1
+
+      - name: Run Tests
+        run: |
+          export NODE_OPTIONS="--openssl-legacy-provider"
+          npm test
+
+      - name: Start Web Server and Run 60s Loop
+        run: |
+          export NODE_OPTIONS="--openssl-legacy-provider"
+          npm start &
+          
+          sleep 3
+
+          i=0
+          while [ $i -lt 60 ]; do
+            sleep 1
+            i=$((i + 1))
+          done
+          echo "60秒が経過しました。"
+
+
+
+      # 5. 変更されたファイルを自動でコミットしてリポジトリにプッシュ（保存）
+      - name: Commit and Push Changes
+        run: |
+          echo "=== 変更をリポジトリにプッシュ中... ==="
+          
+          # GitHub Actions用の共通Botアカウントを設定
+          git config --local user.email "github-actions[bot]@://github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # 変更がある場合のみコミットしてプッシュ
+          git add .
+          if ! git diff-index --quiet HEAD --; then
+            git commit -m "chore: update extensions-v0.json path to local reference"
+            git push origin HEAD
+            echo "変更を保存しました！"
+          else
+            echo "変更はありませんでした。"
+          fi
+      - name: Kill Web Server
+        if: always()
+        run: |
+          echo "バックグラウンドのウェブサーバーを停止します。"
+          pkill -f "node" || echo "終了対象のプロセスはありませんでした。"
