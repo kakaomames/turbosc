@@ -1,78 +1,78 @@
 const br = {
-  name: 'br',
-  extension: 'br'
+  name: "br",
+  extension: "br",
 };
 const gz = {
-  name: 'gzip',
-  extension: 'gz'
+  name: "gzip",
+  extension: "gz",
 };
 const zstd = {
-  name: 'zstd',
-  extension: 'zst'
+  name: "zstd",
+  extension: "zst",
 };
 
 module.exports = {
-  '.html': {
-    type: 'text/html; charset=utf-8',
-    encodings: [br, zstd, gz]
+  ".html": {
+    type: "text/html; charset=utf-8",
+    encodings: [br, zstd, gz],
   },
-  '.js': {
-    type: 'text/javascript; charset=utf-8',
-    encodings: [br, zstd, gz]
+  ".js": {
+    type: "text/javascript; charset=utf-8",
+    encodings: [br, zstd, gz],
   },
-  '.txt': {
-    type: 'text/plain'
+  ".txt": {
+    type: "text/plain",
   },
-  '.map': {
-    type: 'application/json',
-    encodings: [gz]
+  ".map": {
+    type: "application/json",
+    encodings: [gz],
   },
-  '.webmanifest': {
-    type: 'application/json'
+  ".webmanifest": {
+    type: "application/json",
   },
-  '.svg': {
-    type: 'image/svg+xml',
-    encodings: [br, zstd, gz]
+  ".svg": {
+    type: "image/svg+xml",
+    encodings: [br, zstd, gz],
   },
-  '.png': {
-    type: 'image/png'
+  ".png": {
+    type: "image/png",
   },
-  '.jpg': {
-    type: 'image/jpeg'
+  ".jpg": {
+    type: "image/jpeg",
   },
-  '.gif': {
-    type: 'image/gif'
+  ".gif": {
+    type: "image/gif",
   },
-  '.ico': {
-    type: 'image/x-icon'
+  ".ico": {
+    type: "image/x-icon",
   },
-  '.cur': {
-    type: 'image/x-icon'
+  ".cur": {
+    type: "image/x-icon",
   },
-  '.mp3': {
-    type: 'audio/mpeg'
+  ".mp3": {
+    type: "audio/mpeg",
   },
-  '.wav': {
-    type: 'audio/wav'
+  ".wav": {
+    type: "audio/wav",
   },
-  '.ogg': {
-    type: 'audio/ogg'
+  ".ogg": {
+    type: "audio/ogg",
   },
-  '.ttf': {
-    type: 'font/ttf',
-    encodings: [br, zstd, gz]
+  ".ttf": {
+    type: "font/ttf",
+    encodings: [br, zstd, gz],
   },
-  '.otf': {
-    type: 'font/otf',
-    encodings: [br, zstd, gz]
+  ".otf": {
+    type: "font/otf",
+    encodings: [br, zstd, gz],
   },
-  '.woff': {
-    type: 'font/woff'
+  ".woff": {
+    type: "font/woff",
   },
-  '.woff2': {
-    type: 'font/woff2'
+  ".woff2": {
+    type: "font/woff2",
   },
-  '.hex': {
-    type: 'application/octet-stream'
-  }
+  ".hex": {
+    type: "application/octet-stream",
+  },
 };

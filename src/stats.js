@@ -1,5 +1,5 @@
-const logger = require('./logger');
-const environment = require('./environment');
+const logger = require("./logger");
+const environment = require("./environment");
 
 const INTERVAL = 1000 * 60 * 60;
 
@@ -13,7 +13,7 @@ const createBrowserData = () => ({
   firefox: 0,
   safari: 0,
   other: 0,
-  none: 0
+  none: 0,
 });
 
 const createOSData = () => ({
@@ -24,7 +24,7 @@ const createOSData = () => ({
   android: 0,
   ios: 0,
   other: 0,
-  none: 0
+  none: 0,
 });
 
 const createPathsData = () => new Map();
@@ -49,7 +49,7 @@ const getData = () => ({
   browser,
   os,
   paths,
-  uniques
+  uniques,
 });
 
 const print = () => {
@@ -59,13 +59,13 @@ const print = () => {
   logger.info(`     404: ${requests.notFound}`);
   logger.info(` Uniques: ${uniques.size}`);
 
-  logger.info('--- Paths ---');
+  logger.info("--- Paths ---");
   const entries = Array.from(paths.entries()).sort((a, b) => b[1] - a[1]);
   for (const [path, hits] of entries) {
     logger.info(`${path} - ${hits}`);
   }
 
-  logger.info('---    OS    ---');
+  logger.info("---    OS    ---");
   logger.info(` Windows: ${os.windows}`);
   logger.info(`   macOS: ${os.macos}`);
   logger.info(`   Linux: ${os.linux}`);
@@ -75,7 +75,7 @@ const print = () => {
   logger.info(`   Other: ${os.other}`);
   logger.info(`    None: ${os.none}`);
 
-  logger.info('--- Browsers ---');
+  logger.info("--- Browsers ---");
   logger.info(`  Chrome: ${browser.chrome}`);
   logger.info(` Firefox: ${browser.firefox}`);
   logger.info(`  Safari: ${browser.safari}`);
@@ -92,34 +92,38 @@ if (!environment.isTest) {
 const handleRequest = (req) => {
   // We will interpret these headers as a sign that the user is privacy-conscious and doesn't
   // want to be tracked at all. This isn't really tracking but we will respect them anyways.
-  if (req.headers['dnt'] !== '1' && req.headers['sec-gpc'] !== '1') {
+  if (req.headers["dnt"] !== "1" && req.headers["sec-gpc"] !== "1") {
     const ip = req.ip;
     uniques.add(ip);
   }
 
-  const userAgent = req.headers['user-agent'];
-  if (typeof userAgent === 'string') {
-    if (userAgent.indexOf('Chrome') !== -1) {
+  const userAgent = req.headers["user-agent"];
+  if (typeof userAgent === "string") {
+    if (userAgent.indexOf("Chrome") !== -1) {
       browser.chrome++;
-    } else if (userAgent.indexOf('Firefox') !== -1) {
+    } else if (userAgent.indexOf("Firefox") !== -1) {
       browser.firefox++;
-    } else if (userAgent.indexOf('Safari') !== -1) {
+    } else if (userAgent.indexOf("Safari") !== -1) {
       browser.safari++;
     } else {
       browser.other++;
     }
 
-    if (userAgent.indexOf('Windows') !== -1) {
+    if (userAgent.indexOf("Windows") !== -1) {
       os.windows++;
-    } else if (userAgent.indexOf('iPhone') !== -1 || userAgent.indexOf('iPod') !== -1 || userAgent.indexOf('iPad') !== -1) {
+    } else if (
+      userAgent.indexOf("iPhone") !== -1 ||
+      userAgent.indexOf("iPod") !== -1 ||
+      userAgent.indexOf("iPad") !== -1
+    ) {
       os.ios++;
-    } else if (userAgent.indexOf('Mac OS') !== -1) {
+    } else if (userAgent.indexOf("Mac OS") !== -1) {
       os.macos++;
-    } else if (userAgent.indexOf('CrOS') !== -1) {
+    } else if (userAgent.indexOf("CrOS") !== -1) {
       os.chromeos++;
-    } else if (userAgent.indexOf('Android') !== -1) {
+    } else if (userAgent.indexOf("Android") !== -1) {
       os.android++;
-    } else if (userAgent.indexOf('Linux') !== -1) {
+    } else if (userAgent.indexOf("Linux") !== -1) {
       os.linux++;
     } else {
       os.other++;
@@ -149,5 +153,5 @@ module.exports = {
   handleServedFile,
   handleNotFound,
   reset,
-  getData
+  getData,
 };
